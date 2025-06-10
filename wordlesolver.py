@@ -47,7 +47,7 @@ class WordleSolver:
         """
         return self.word_list
 
-    def tostring(self):
+    def __str__(self):
         """
         Get a string representation of the current word list.
         
@@ -62,15 +62,23 @@ def main():
 #    dp = pd.read_csv("valid_solutions.csv")
 #    valid_words = [word.lower() for word in dp['word'].tolist()]
     solver = WordleSolver(words)
+    foundAnswer = False
 
-    print("Enter your guess:")
-    guess = input().strip().lower()
-    print("Enter feedback:")
-    feedback = input().strip().upper()
+    while foundAnswer == False:
+        print("Enter your guess:")
+        guess = input().strip().lower()
+        print("Enter feedback:")
+        feedback = input().strip().upper()
 
-    print("Filtered words based on your guess and feedback:")
-    print(solver.apply_guess(guess, feedback))
-    print("Current answer state:", solver.tostring())
+        print("Filtered words based on your guess and feedback:")
+        valid_answers = solver.apply_guess(guess, feedback)
+        if len(valid_answers) == 1:
+            foundAnswer = True
+            print(F"Answer is: {valid_answers}")
+        else:
+            print(valid_answers)
+            print("Current answer state:", solver)
+      
    
 
 if __name__ == "__main__":
