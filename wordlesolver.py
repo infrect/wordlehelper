@@ -38,6 +38,9 @@ class WordleSolver:
 #        print (new_word_list)
         self.word_list = new_word_list
     
+#    def guess_information(self, guess, feedback):
+
+    
     def get_word_list(self):
         """
         Get the current list of valid words.
@@ -59,9 +62,14 @@ class WordleSolver:
 def main():
     df = pd.read_csv("valid_solutions.csv")
     words = [word.lower() for word in df['word'].tolist()]
-#    dp = pd.read_csv("valid_solutions.csv")
-#    valid_words = [word.lower() for word in dp['word'].tolist()]
-    solver = WordleSolver(words)
+    df = pd.read_csv("valid_guesses.csv")
+    allvalidguesses = [word.lower() for word in df['word'].tolist()]
+    df = pd.read_csv("past_answers.csv")
+    past_answers = [word.lower() for word in df['word'].tolist()]
+    for word in past_answers:
+        if word in words:
+            words.remove(word)
+    solver = WordleSolver(list(set(words)))
     foundAnswer = False
 
     while foundAnswer == False:
@@ -76,6 +84,7 @@ def main():
             foundAnswer = True
             print(F"Answer is: {valid_answers}")
         else:
+#            for word in df['word'].tolist():
             print(valid_answers)
             print("Current answer state:", solver)
       
